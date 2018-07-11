@@ -12,8 +12,11 @@ def read_skel_text_file(filepath):
     dimension corresponds to the x y x of the camera view."""
 
     df = pd.read_csv(filepath, header=None)
-    data = np.transpose(np.reshape(np.array([line.split(' ') for line in df[0].values]).astype(
-        float).T, newshape=(6, 15, -1)), axes=(2, 0, 1))[:, 0:3, :]
+    data = np.transpose(np.reshape(np.array([line.split(' ')
+                                             for line in df[0].values]
+                                            ).astype(float).T,
+                                   newshape=(6, 15, -1)),
+                        axes=(2, 0, 1))[:, 0:3, :]
     return data
 
 
@@ -32,11 +35,11 @@ def extract_data_activity_video(base_path, sess, act):
                    if fname.startswith(file_format)
                    and fname.endswith('user2.txt')]
 
-    print(files_user1, files_user2, sess, act)
     files_user1 = np.concatenate(files_user1, axis=0)
     files_user2 = np.concatenate(files_user2, axis=0)
 
-    return dict(activity=act, session=sess, data=np.concatenate([files_user1, files_user2], axis=1))
+    return dict(activity=act, session=sess,
+                user1=files_user1, user2=files_user2)
 
 
 def load_dataset(base_path):
