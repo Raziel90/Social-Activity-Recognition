@@ -20,26 +20,30 @@ def read_skel_text_file(filepath):
     return data
 
 
+"""    Function to extract the data of a single video both subjects"""
+
+
 def extract_data_activity_video(base_path, sess, act):
 
     file_format = 'a' + str(act).zfill(2) + '_s' + str(sess).zfill(2)
-    print(file_format)
-    print(path.join(base_path))
-    files_user1 = [read_skel_text_file(path.join(base_path, fname))
-                   for fname in listdir(base_path)
+
+    # print(file_format)
+    # print(path.join(base_path))
+
+    files_user1 = [read_skel_text_file(path.join(base_path, fname)) for fname
+                   in listdir(base_path)
                    if fname.startswith(file_format)
                    and fname.endswith('user1.txt')]
 
-    files_user2 = [read_skel_text_file(path.join(base_path, fname))
-                   for fname in listdir(base_path)
+    files_user2 = [read_skel_text_file(path.join(base_path, fname)) for fname
+                   in listdir(base_path)
                    if fname.startswith(file_format)
                    and fname.endswith('user2.txt')]
 
     files_user1 = np.concatenate(files_user1, axis=0)
     files_user2 = np.concatenate(files_user2, axis=0)
 
-    return dict(activity=act, session=sess,
-                user1=files_user1, user2=files_user2)
+    return dict(activity=act, session=sess, user1=files_user1, user2=files_user2)
 
 
 def load_dataset(base_path):
